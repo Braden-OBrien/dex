@@ -8,6 +8,7 @@ import (
 	"errors"
 	"io"
 	"math/big"
+	"regexp"
 	"strings"
 	"time"
 
@@ -169,6 +170,11 @@ type Client struct {
 	// A registered set of redirect URIs. When redirecting from dex to the client, the URI
 	// requested to redirect to MUST match one of these values, unless the client is "public".
 	RedirectURIs []string `json:"redirectURIs"`
+
+	// Regex the redirect URI have to match to ba allowed for non-public Clients
+	// requested to redirect to MUST match one of these values, unless the client is "public".
+	// NOTE: we dont serialize this field into any persistent storage
+	RedirectURIRegex *regexp.Regexp `json:"-" yaml:"-"`
 
 	// PostLogoutRedirectURIs is a registered set of URIs that the client can redirect to
 	// after logout. Per OIDC RP-Initiated Logout Section 2, the post_logout_redirect_uri
